@@ -11,6 +11,7 @@ import org.junit.Test;
  */
 public class Largest1_BorderedSquareLC_1139 {
 
+    //前缀和
     public int largest1BorderedSquare2(int[][] grid) {
         //降维打击 行和列的一维前缀和
         int m = grid.length, n = grid[0].length;
@@ -52,6 +53,7 @@ public class Largest1_BorderedSquareLC_1139 {
         return ans * ans;
     }
 
+    //前缀和
     public int largest1BorderedSquare3(int[][] grid) {
         int rowLen = grid.length;
         int colLen = grid[0].length;
@@ -80,7 +82,7 @@ public class Largest1_BorderedSquareLC_1139 {
         return 0;
     }
 
-
+    //暴力解法
     public int largest1BorderedSquare(int[][] grid) {
         int row = grid.length;
         int column = grid[0].length;
@@ -136,21 +138,23 @@ public class Largest1_BorderedSquareLC_1139 {
         }
         return maxLen * maxLen;
     }
+
+    //动态规划
     public int largest1BorderedSquare4(int[][] grid) {
         final int m = grid.length;
         final int n = grid[0].length;
 
         Pair<Integer, Integer>[][] dp = new Pair[m + 1][n + 1];
-        for(int i = 0; i <= m; i++){
-            for(int j = 0; j <= n; j++){
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
                 dp[i][j] = new Pair<>(0, 0);
             }
         }
 
         int ans = 0;
-        for(int i = 1; i <= m; i++){
-            for(int j = 1; j <= n; j++){
-                if(grid[i - 1][j - 1] == 0) {
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (grid[i - 1][j - 1] == 0) {
                     dp[i][j] = new Pair<>(0, 0);
                 } else {
                     dp[i][j] = new Pair<>(dp[i][j - 1].getKey() + 1, dp[i - 1][j].getValue() + 1);
@@ -158,19 +162,21 @@ public class Largest1_BorderedSquareLC_1139 {
             }
         }
 
-        for(int i = m; i > 0; i--){
-            for(int j = n; j > 0; j--){
-                if(dp[i][j].getKey() != 0 && dp[i][j].getValue() != 0){
+        for (int i = m; i > 0; i--) {
+            for (int j = n; j > 0; j--) {
+                if (dp[i][j].getKey() != 0 && dp[i][j].getValue() != 0) {
                     int tmp = Math.min(dp[i][j].getKey(), dp[i][j].getValue());
-                    for(int len = tmp; len > 0; len--){
+                    for (int len = tmp; len > 0; len--) {
                         int x = i - len + 1, y = j - len + 1;
-                        if(dp[x][j].getKey() >= len && dp[i][y].getValue() >= len) ans = Math.max(ans, len * len);
+                        if (dp[x][j].getKey() >= len && dp[i][y].getValue() >= len) ans = Math.max(ans, len * len);
                     }
                 }
             }
         }
         return ans;
     }
+
+    //动态规划
     public int largest1BorderedSquare1(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
