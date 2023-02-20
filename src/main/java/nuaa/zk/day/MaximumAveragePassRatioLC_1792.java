@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  */
 public class MaximumAveragePassRatioLC_1792 {
     public double maxAverageRatio(int[][] classes, int extraStudents) {
-        
+
         PriorityQueue<int[]> maxHeap = new PriorityQueue<int[]>((t1, t2) -> {
             long value1 = (long) (t1[1] + 1) * t1[1] * (t2[1] - t2[0]);
             long value2 = (long) (t2[1] + 1) * t2[1] * (t1[1] - t1[0]);
