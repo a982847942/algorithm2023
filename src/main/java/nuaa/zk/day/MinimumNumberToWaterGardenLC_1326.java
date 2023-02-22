@@ -92,10 +92,12 @@ public class MinimumNumberToWaterGardenLC_1326 {
             if (land[cur] == 0) return -1;
             cur = land[cur];
             total++;
+
         }
         return total;
     }
 
+    // TODO: 2023/2/22   弄清楚相关路径覆盖问题，以及本题的动态规划解法
     @Test
     public void test() {
         int n = 7;
