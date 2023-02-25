@@ -8,7 +8,7 @@ import org.junit.Test;
  * @Date 2023/2/25 19:44
  * @Created by brain
  */
-public class MinimumSwaps {
+public class MinimumSwapsLC_1247 {
 
     public int minimumSwap(String s1, String s2) {
         int xy = 0;
