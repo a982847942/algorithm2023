@@ -42,7 +42,7 @@ public class SubsetsLC_78 {
         return res;
     }
 
-    //，枚举结果 
+    //，枚举结果
     private void dfs2(int index, int[] nums, List<List<Integer>> res, ArrayList<Integer> temp) {
         res.add(new ArrayList<>(temp));
         if (index == nums.length)return;
