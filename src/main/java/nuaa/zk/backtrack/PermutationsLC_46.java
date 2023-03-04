@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ public class PermutationsLC_46 {
         return res;
     }
 
+    /**
+     *用什么办法可以去掉used数组？
+     */
     private void dfs(int index, List<List<Integer>> res,int[] nums, boolean[] used, ArrayList<Integer> temp) {
         if (index == nums.length) {
             res.add(new ArrayList<>(temp));
@@ -34,6 +38,36 @@ public class PermutationsLC_46 {
                 temp.remove(temp.size() - 1);
                 used[i] = false;
             }
+        }
+    }
+
+    public List<List<Integer>> permute1_2(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            temp.add(nums[i]);
+        }
+        dfs2(0,temp,res,len);
+        return res;
+    }
+
+    /*
+    去掉used数组,想象一下将temp分为  0...first...len
+    first代表没有选择的第一个数  每次选择i后将其与first交换位置，然后first + 1进入下一轮遍历
+    比如 2 3,1(first) 4 5 选择5 则交换后 2 3 5 4(first) 1不影响后续选择
+    值得注意的是求得的结果不是有序的
+     */
+    private void dfs2(int first, List<Integer> temp, List<List<Integer>> res,int len) {
+        if (first == len){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = first; i < len; i++) {
+            //选择i
+            Collections.swap(temp,first,i);
+            dfs2(first + 1,temp,res,len);
+            Collections.swap(temp,first,i);
         }
     }
 
