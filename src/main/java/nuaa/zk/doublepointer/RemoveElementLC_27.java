@@ -31,6 +31,7 @@ public class RemoveElementLC_27 {
         nums[index2] = temp;
     }
 
+    //快慢指针  这里遍历时候的下表也是一个指针(fori就行)
     public int removeElement3(int[] nums, int val) {
         int idx = 0;
         for (int x : nums) {
@@ -40,15 +41,16 @@ public class RemoveElementLC_27 {
     }
 
 
+    //相向双指针
     public int removeElement2(int[] nums, int val) {
         int len = nums.length;
-        int left = len - 1;
-        for (int i = 0; i <= left ; i++) {
-            if (nums[i] == val){
-                swap(nums,i--,left--);
+        int right = len - 1;
+        for (int left = 0; left <= right ; left++) {
+            if (nums[left] == val){
+                swap(nums,left--,right--);
             }
         }
-        return left + 1;
+        return right + 1;
     }
 
     @Test
