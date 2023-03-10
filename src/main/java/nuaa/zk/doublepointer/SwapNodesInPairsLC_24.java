@@ -25,6 +25,7 @@ public class SwapNodesInPairsLC_24 {
         }
     }
 
+    // TODO: 2023/3/10 k个一组翻转递归方法相似 
     public ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null) return head;
         ListNode cur = head;
