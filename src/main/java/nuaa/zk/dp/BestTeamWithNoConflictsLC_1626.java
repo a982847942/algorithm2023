@@ -1,5 +1,7 @@
 package nuaa.zk.dp;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 
 /**
@@ -32,6 +34,7 @@ public class BestTeamWithNoConflictsLC_1626 {
     }
 
     //基于值域的做法
+    //在遍历球员的同时，维护数组maxSum,maxSum[x]表示年龄最大值恰好等于x的球队最大分数和。
     public int bestTeamScore2(int[] scores, int[] ages) {
         int n = scores.length, u = 0, ans = 0;
         Integer[] ids = new Integer[n];
@@ -80,6 +83,12 @@ public class BestTeamWithNoConflictsLC_1626 {
     private void update(int i, int mx) {
         for (; i <= MX; i += i & -i)
             t[i] = Math.max(t[i], mx);
+    }
+
+    @Test
+    public void test(){
+        int[] scores = {4,5,6,5}, ages = {2,1,2,1};
+        System.out.println(bestTeamScore2(scores, ages));
     }
 
 }
