@@ -1,4 +1,4 @@
-package nuaa.zk.dp;
+package nuaa.zk.dp.LIS;
 
 import org.junit.Test;
 
