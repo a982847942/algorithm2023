@@ -84,7 +84,6 @@ public class ShortestCommonSupersequenceLC_1092 {
         return memory[i][j] = Math.min(dfs(i - 1, j), dfs(i, j - 1)) + 1;
     }
 
-
     public String shortestCommonSupersequence4(String str1, String str2) {
         // f[i+1][j+1] 表示 s 的前 i 个字母和 t 的前 j 个字母的最短公共超序列的长度
         char[] s = str1.toCharArray(), t = str2.toCharArray();
@@ -123,56 +122,105 @@ public class ShortestCommonSupersequenceLC_1092 {
 
     //LCS记录状态转移 倒推即可
     public String shortestCommonSupersequence5(String str1, String str2) {
-        char c1[]=str1.toCharArray(),c2[]=str2.toCharArray();
-        int sub[][][]=new int[c1.length+1][c2.length+1][2];//位置2：0从斜向转移过来，1：i方向，2：j方向
-        for(int i=1;i<=c1.length;i++){
-            for(int j=1;j<=c2.length;j++){
-                if(c1[i-1]==c2[j-1]){sub[i][j][0]=1+sub[i-1][j-1][0];}
-                else{
-                    if(sub[i-1][j][0]>=sub[i][j-1][0]){
-                        sub[i][j][0]=sub[i-1][j][0];
-                        sub[i][j][1]=1;
-                    }
-                    else{
-                        sub[i][j][0]=sub[i][j-1][0];
-                        sub[i][j][1]=2;
+        char c1[] = str1.toCharArray(), c2[] = str2.toCharArray();
+        int sub[][][] = new int[c1.length + 1][c2.length + 1][2];//位置2：0从斜向转移过来，1：i方向，2：j方向
+        for (int i = 1; i <= c1.length; i++) {
+            for (int j = 1; j <= c2.length; j++) {
+                if (c1[i - 1] == c2[j - 1]) {
+                    sub[i][j][0] = 1 + sub[i - 1][j - 1][0];
+                } else {
+                    if (sub[i - 1][j][0] >= sub[i][j - 1][0]) {
+                        sub[i][j][0] = sub[i - 1][j][0];
+                        sub[i][j][1] = 1;
+                    } else {
+                        sub[i][j][0] = sub[i][j - 1][0];
+                        sub[i][j][1] = 2;
                     }
                 }
             }
         }
-        int p1=c1.length,p2=c2.length;
-        StringBuilder ans=new StringBuilder();
-        while(true){
-            if(p1==0&&p2==0){break;}
-            else if(p1==0){
-                for(;p2>0;p2--){ans.append(c2[p2-1]);}
+//        System.out.println(sub[c1.length][c2.length][0]);
+        int p1 = c1.length, p2 = c2.length;
+        StringBuilder ans = new StringBuilder();
+        while (true) {
+            if (p1 == 0 && p2 == 0) {
                 break;
-            }
-            else if(p2==0){
-                for(;p1>0;p1--){ans.append(c1[p1-1]);}
+            } else if (p1 == 0) {
+                for (; p2 > 0; p2--) {
+                    ans.append(c2[p2 - 1]);
+                }
                 break;
-            }
-            else{
-                if(sub[p1][p2][1]==0){
-                    ans.append(c1[p1-1]);
+            } else if (p2 == 0) {
+                for (; p1 > 0; p1--) {
+                    ans.append(c1[p1 - 1]);
+                }
+                break;
+            } else {
+                if (sub[p1][p2][1] == 0) {
+                    ans.append(c1[p1 - 1]);
                     p1--;
                     p2--;
-                }
-                else if(sub[p1][p2][1]==1){
-                    ans.append(c1[p1-1]);
+                } else if (sub[p1][p2][1] == 1) {
+                    ans.append(c1[p1 - 1]);
                     p1--;
-                }
-                else{
-                    ans.append(c2[p2-1]);
+                } else {
+                    ans.append(c2[p2 - 1]);
                     p2--;
                 }
             }
         }
         return ans.reverse().toString();
     }
+
     @Test
     public void test() {
         String str1 = "abac", str2 = "cab";
-        System.out.println(shortestCommonSupersequence(str1, str2));
+        System.out.println(shortestCommonSupersequence5_1(str1, str2));
+    }
+
+    public String shortestCommonSupersequence5_1(String str1, String str2) {
+        char[] s = str1.toCharArray();
+        char[] t = str2.toCharArray();
+        int n = s.length, m = t.length;
+        int[][][] lcs = new int[n + 1][m + 1][2];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (s[i] == t[j]) {
+                    lcs[i + 1][j + 1][0] = lcs[i][j][0] + 1;
+                } else {
+                    if (lcs[i][j + 1][0] >= lcs[i + 1][j][0]) {
+                        lcs[i + 1][j + 1][0] = lcs[i][j + 1][0];
+                        lcs[i + 1][j + 1][1] = 1;
+                    } else {
+                        lcs[i + 1][j + 1][0] = lcs[i + 1][j][0];
+                        lcs[i + 1][j + 1][1] = 2;
+                    }
+                }
+            }
+        }
+
+        int na = lcs[n][m][0];
+//        System.out.println(na);
+        char[] res = new char[n + m - na];
+        System.out.println(n + m - na);
+        for (int i = n - 1, j = m - 1, k = n + m - na - 1; ; ) {
+            if (i < 0) {
+                System.arraycopy(t, 0, res, 0, j + 1);
+                break;
+            }
+            if (j < 0) {
+                System.arraycopy(s, 0, res, 0, i + 1);
+                break;
+            }
+            if (lcs[i+1][j+1][1] == 0){
+                res[k--] += s[i--];
+                j--;
+            }else if (lcs[i+1][j+1][1] == 1){
+                res[k--] += s[i--];
+            }else {
+                res[k--] += t[j--];
+            }
+        }
+        return new String(res);
     }
 }
